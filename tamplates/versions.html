@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Saved Files</title>
+    <link rel="stylesheet" href="version.css">
+</head>
+<body>
+    <h1>Saved Files</h1>
+
+    {% for code in codes %}
+        <div class="code-item">
+            <strong><a href="/load/{{ code.id }}">{{ code.name }}</a></strong>                    {{ code.timestamp }}<br>
+            <form action="/delete/{{ code.id }}" method="POST" onsubmit="return confirm('Delete this file?');">
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+        <hr>
+    {% endfor %}
+
+    <a href="/">⬅ Back to Editor</a>
+</body>
+</html>

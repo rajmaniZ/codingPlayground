@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Python Code Editor</title>
+</head>
+<body>
+
+    <h1>Python Code Editor</h1>
+
+    <form id="codeForm" method="POST" action="/save">
+        <input type="hidden" name="name" id="name">
+
+        <label for="code">Code:</label><br>
+        <textarea name="code" rows="20" cols="80">{{ old_code if old_code else '' }}</textarea><br><br>
+
+        <button type="button" onclick="runCode()">Run</button>
+        <button type="button" onclick="saveCode()">Save</button>
+    </form>
+
+    {% if output %}
+        <h3>Output:</h3>
+        <pre>{{ output }}</pre>
+    {% endif %}
+
+    <script>
+        function saveCode() {
+            const filename = prompt("Enter file name to save:");
+            if (filename) {
+                document.getElementById('name').value = filename;
+                document.getElementById('codeForm').submit();
+            }
+        }
+
+        function runCode() {
+            // Temporarily change action to / so Flask can handle /run on POST
+            const form = document.getElementById('codeForm');
+            const originalAction = form.action;
+            form.action = "/";
+            const tempInput = document.createElement('input');
+            tempInput.type = "hidden";
+            tempInput.name = "action";
+            tempInput.value = "run";
+            form.appendChild(tempInput);
+            form.submit();
+            form.action = originalAction;
+        }
+    </script>
+
+</body>
+</html>
